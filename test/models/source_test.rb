@@ -92,6 +92,92 @@ class SourceTest < Minitest::Test
   assert_equal ["http://jumpstartlab.com/courses", "http://jumpstartlab.com/home", "http://jumpstartlab.com/blog"], source.ordered_urls
   end
 
+  def test_it_can_return_browsers_for_source
+    source = CreateSourcesAndPayloads.create_source("jumpstartlab", "http://www.jumpstartlab.com")
+    CreateSourcesAndPayloads.create_payload("http://jumpstartlab.com/blog",
+                                            "2014-02-16 21:38:28 -0700",
+                                            37,
+                                            "http://jumpstartlab.com",
+                                            "GET",
+                                            [],
+                                            "socialLogin",
+                                            "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+                                            "1920",
+                                            "1280",
+                                            "63.29.38.211",
+                                            source)
+    CreateSourcesAndPayloads.create_payload("http://jumpstartlab.com/courses",
+                                            "2014-03-13 21:38:30 -0700",
+                                            37,
+                                            "http://jumpstartlab.com",
+                                            "GET",
+                                            [],
+                                            "socialLogin",
+                                            "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+                                            "1920",
+                                            "1280",
+                                            "63.29.38.211",
+                                            source)
+    CreateSourcesAndPayloads.create_payload("http://jumpstartlab.com/courses",
+                                            "2015-03-12 21:38:00 -0800",
+                                            37,
+                                            "http://jumpstartlab.com",
+                                            "GET",
+                                            [],
+                                            "socialLogin",
+                                            "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Safari/24.0.1309.0 Safari/537.17",
+                                            "1920",
+                                            "1280",
+                                            "63.29.38.210",
+                                            source)
+
+       browers = ["Chrome", "Chrome", "Safari"]
+       assert_equal browers, source.browsers
+    end
+
+    def test_it_can_return_platforms_for_source
+        source = CreateSourcesAndPayloads.create_source("jumpstartlab", "http://www.jumpstartlab.com")
+        CreateSourcesAndPayloads.create_payload("http://jumpstartlab.com/blog",
+                                              "2014-02-16 21:38:28 -0700",
+                                              37,
+                                              "http://jumpstartlab.com",
+                                              "GET",
+                                              [],
+                                              "socialLogin",
+                                              "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+                                              "1920",
+                                              "1280",
+                                              "63.29.38.211",
+                                              source)
+        CreateSourcesAndPayloads.create_payload("http://jumpstartlab.com/courses",
+                                              "2014-03-13 21:38:30 -0700",
+                                              37,
+                                              "http://jumpstartlab.com",
+                                              "GET",
+                                              [],
+                                              "socialLogin",
+                                              "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+                                              "1920",
+                                              "1280",
+                                              "63.29.38.211",
+                                              source)
+        CreateSourcesAndPayloads.create_payload("http://jumpstartlab.com/courses",
+                                              "2015-03-12 21:38:00 -0800",
+                                              37,
+                                              "http://jumpstartlab.com",
+                                              "GET",
+                                              [],
+                                              "socialLogin",
+                                              "Mozilla/5.0 (Windows) AppleWebKit/537.17 (KHTML, like Gecko) Safari/24.0.1309.0 Safari/537.17",
+                                              "1920",
+                                              "1280",
+                                              "63.29.38.210",
+                                              source)
+
+    platforms = ["Macintosh%3B Intel Mac OS X 10_8_2", "Macintosh%3B Intel Mac OS X 10_8_2", "Windows"]
+    assert_equal platforms, source.platforms
+  end
+
   def test_it_can_list_avg_response_times_for_urls
     TrafficSpy::Url.create(name: "http://jumpstartlab.com/blog")
     TrafficSpy::Url.create(name: "http://jumpstartlab.com/courses")

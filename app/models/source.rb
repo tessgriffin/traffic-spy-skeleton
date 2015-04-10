@@ -16,6 +16,14 @@ module TrafficSpy
       urls.uniq.sort_by {|v| frequency[v] }.reverse
     end
 
+    def browsers
+      Payload.pluck(:user_agent_id).map{|user_agent| UserAgent.find(user_agent).browser}
+    end
+
+    def platforms
+      Payload.pluck(:user_agent_id).map{|user_agent| UserAgent.find(user_agent).platform}
+    end
+
     def ordered_url_response_times
       response_times = payloads.sort_by { |pl| pl.url.average_response_time }.reverse
       response_times.map { |pl| "#{pl.url.name}: #{pl.url.average_response_time}"}.uniq
