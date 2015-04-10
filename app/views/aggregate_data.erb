@@ -13,3 +13,18 @@
   <li><%= url %></li>
   <% end %>
 </ul>
+
+<h2>Browsers</h2>
+<ul class="browsers">
+  <% @source.browsers.each do |browser| %>
+  <li><%= browser %></li>
+  <% end %>
+</ul>
+
+
+<h2>Platforms</h2>
+<ul class="platforms">
+  <% @source.platforms.each do |platform| %>
+  <li><%= platform %></li>
+  <% end %>
+</ul>

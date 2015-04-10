@@ -43,7 +43,7 @@ class UserViewsSiteDataTest < FeatureTest
                                             "GET",
                                             [],
                                             "socialLogin",
-                                            "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+                                            "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Safari/24.0.1309.0 Safari/537.17",
                                             "1920",
                                             "1280",
                                             "63.29.38.210",
@@ -68,6 +68,14 @@ class UserViewsSiteDataTest < FeatureTest
     }
     within ('ul.average_urls li:nth-child(2)'){
         assert page.has_content?("http://jumpstartlab.com/blog: 15")
+    }
+    save_and_open_page
+    within ('ul.browsers li:nth-child(1)'){
+        assert page.has_content?("Chrome")
+    }
+
+    within ('ul.browsers li:nth-child(3)'){
+        assert page.has_content?("Safari")
     }
   end
 
