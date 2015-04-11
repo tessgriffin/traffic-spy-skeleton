@@ -16,12 +16,20 @@ module TrafficSpy
       urls.uniq.sort_by {|v| frequency[v] }.reverse
     end
 
+    def url_objects
+      self.urls
+    end
+
     def browsers
       Payload.pluck(:user_agent_id).map{|user_agent| UserAgent.find(user_agent).browser}
     end
 
     def platforms
       Payload.pluck(:user_agent_id).map{|user_agent| UserAgent.find(user_agent).platform}
+    end
+
+    def resolutions
+      Payload.pluck(:resolution_id).map{|resolution| Resolution.find(resolution).dimension}
     end
 
     def ordered_url_response_times

@@ -15,7 +15,7 @@ module CreateSourcesAndPayloads
                           resolution_height,
                           ip,
                           source_a)
-  
+
     user_agent = ::UserAgent.parse(user_agent)
     TrafficSpy::Payload.create(
       url: TrafficSpy::Url.find_or_create_by(name: "#{url}"),
@@ -26,8 +26,9 @@ module CreateSourcesAndPayloads
       parameters:[],
       event_name: "#{event_name}",
       user_agent: TrafficSpy::UserAgent.find_or_create_by(browser: user_agent.browser, version: user_agent.version, platform: user_agent.platform),
-      resolution_width: "#{resolution_width}",
-      resolution_height:"#{resolution_height}",
+      resolution_id: TrafficSpy::Resolution.find_or_create_by(dimension: "#{resolution_width}x#{resolution_height}").id,
+      # resolution_width: "#{resolution_width}",
+      # resolution_height:"#{resolution_height}",
       ip: "#{ip}",
       source: source_a
       )

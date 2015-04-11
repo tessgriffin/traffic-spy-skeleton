@@ -28,3 +28,10 @@
   <li><%= platform %></li>
   <% end %>
 </ul>
+
+<h2>Resolutions</h2>
+<ul class="screen_resolutions">
+  <% @source.resolutions.each do |resolution| %>
+  <li><%= resolution %></li>
+  <% end %>
+</ul>

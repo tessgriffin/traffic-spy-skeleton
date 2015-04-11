@@ -1,11 +1,13 @@
 require 'json'
 require 'useragent'
+require 'uri'
+
 module TrafficSpy
   class PayloadHelper
     attr_accessor :status, :body
 
     def self.call(params, identifier)
-      if params[:payload] == nil
+      if params[:payload] == nil || params[:payload] == "{}"
           @status = 400
           @body = "Payload can't be blank"
       else
@@ -39,18 +41,18 @@ module TrafficSpy
     end
 
     def self.add_payload(identifier, payload_hash)
-      user_agent = ::UserAgent.parse(payload_hash["user_agent"])
+      user_agent = ::UserAgent.parse(payload_hash["userAgent"])
+      # uri = URI(payload_hash["url"])
       Payload.new(
-            url: Url.find_or_create_by(name: payload_hash["url"]),
+            url: Url.find_or_create_by(name: payload_hash["url"], relative_path: URI(payload_hash["url"]).path),
             requested_at: payload_hash["requestedAt"],
             responded_in: payload_hash["respondedIn"],
             referred_by: payload_hash["referredBy"],
             request_type: payload_hash["requestType"],
             parameters: payload_hash["parameters"],
             event_name: payload_hash["eventName"],
-            user_agent: TrafficSpy::UserAgent.find_or_create_by(browser: user_agent.browser, version: user_agent.version, platform: user_agent.platform),
-            resolution_width: payload_hash["resolutionWidth"],
-            resolution_height: payload_hash["resolutionHeight"],
+            user_agent: TrafficSpy::UserAgent.find_or_create_by( browser: user_agent.browser, version: user_agent.version, platform: user_agent.platform ),
+            resolution: TrafficSpy::Resolution.find_or_create_by( dimension: "#{payload_hash['resolutionWidth']}x#{payload_hash['resolutionHeight']}" ),
             ip: payload_hash["ip"],
             source: Source.find_by(identifier: identifier)
             )

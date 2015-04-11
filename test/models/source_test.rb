@@ -218,8 +218,8 @@ class SourceTest < Minitest::Test
                                             [],
                                             "socialLogin",
                                             "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-                                            "1920",
-                                            "1280",
+                                            "960",
+                                            "640",
                                             "63.29.38.210",
                                             source)
 
@@ -231,11 +231,46 @@ class SourceTest < Minitest::Test
                                             [],
                                             "socialLogin",
                                             "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
-                                            "1920",
                                             "1280",
+                                            "720",
                                             "63.29.38.210",
                                             source)
     urls = ["http://jumpstartlab.com/blog: 23", "http://jumpstartlab.com/courses: 12"]
     assert_equal urls, source.ordered_url_response_times
+  end
+
+  def test_it_can_return_resolutions_for_source
+    source = CreateSourcesAndPayloads.create_source("jumpstartlab", "http://www.jumpstartlab.com")
+    CreateSourcesAndPayloads.create_payload("http://jumpstartlab.com/blog",
+                                            "2014-02-16 21:38:28 -0700",
+                                            37,
+                                            "http://jumpstartlab.com",
+                                            "GET",
+                                            [],
+                                            "socialLogin",
+                                            "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+                                            "1920",
+                                            "1280",
+                                            "63.29.38.211",
+                                            source)
+       resolutions = ["1920x1280"]
+       assert_equal resolutions, source.resolutions
+  end
+
+  def test_it_can_return_url_objects_from_source
+    source = CreateSourcesAndPayloads.create_source("jumpstartlab", "http://www.jumpstartlab.com")
+    CreateSourcesAndPayloads.create_payload("http://jumpstartlab.com/blog",
+                                            "2014-02-16 21:38:28 -0700",
+                                            37,
+                                            "http://jumpstartlab.com",
+                                            "GET",
+                                            [],
+                                            "socialLogin",
+                                            "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+                                            "1920",
+                                            "1280",
+                                            "63.29.38.211",
+                                            source)
+    assert_equal ["http://jumpstartlab.com/blog"], source.url_objects
   end
 end

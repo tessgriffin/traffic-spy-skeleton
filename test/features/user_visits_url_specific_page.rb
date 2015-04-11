@@ -1,10 +1,10 @@
 require './test/test_helper'
 require './test/create_sources_and_payloads'
 
-class UserViewsSiteDataTest < FeatureTest
+class UserViewsUrlDataTest < FeatureTest
   include CreateSourcesAndPayloads
 
-  def test_user_views_identifier
+  def test_user_views_url_data
     source = CreateSourcesAndPayloads.create_source("jumpstartlab", "http://www.jumpstartlab.com")
     CreateSourcesAndPayloads.create_payload("http://jumpstartlab.com/blog",
                                             "2014-02-16 21:38:28 -0700",
@@ -46,41 +46,9 @@ class UserViewsSiteDataTest < FeatureTest
    
     #as a client
     #When I visit the page for my site
-    visit '/sources/jumpstartlab'
+    visit '/sources/jumpstartlab/urls/blog'
+    save_and_open_page
     #I expect to see the identifier for my site
-    assert page.has_content?("jumpstartlab")
-    within ('ul.urls li:nth-child(1)'){
-        assert page.has_content?("http://jumpstartlab.com/blog")
-    }
-    within ('ul.urls li:nth-child(2)'){
-        assert page.has_content?("http://jumpstartlab.com/courses")
-    }
-    within ('ul.average_urls li:nth-child(1)'){
-        assert page.has_content?("http://jumpstartlab.com/courses: 37")
-    }
-    within ('ul.average_urls li:nth-child(2)'){
-        assert page.has_content?("http://jumpstartlab.com/blog: 15")
-    }
-    within ('ul.browsers li:nth-child(1)'){
-        assert page.has_content?("Chrome")
-    }
-
-    within ('ul.browsers li:nth-child(3)'){
-        assert page.has_content?("Safari")
-    }
-
-    within ('ul.screen_resolutions li:nth-child(1)'){
-        assert page.has_content?("1920x1280")
-    }
-
-    within ('ul.screen_resolutions li:nth-child(3)'){
-        assert page.has_content?("1280x720")
-    }
-
-    within ('ul.urls li:nth-child(1)'){
-      #click_link_or_button("jumpstartlab.com/blog")
-      # assert_equal 'sources/jumpstartlab/urls/blog', current_path
-    }
+    assert page.has_content?("Hello Url")
   end
-
 end

@@ -19,7 +19,17 @@ module TrafficSpy
 
     get '/sources/:identifier' do |identifier|
       @source = Source.find_by(identifier: identifier)
-      erb :aggregate_data
+      #@url = Url.find_by(id: @source.url_id)
+      if @source == nil
+        erb :no_source_error
+      else
+        erb :aggregate_data
+      end
+    end
+
+    get '/sources/:identifier/urls/:path' do |identifier, path|
+      @url = Url.find_by(name: "http://#{identifier}/#{path}")
+      erb :url_data
     end
 
     post '/sources/:identifier/data' do |identifier|

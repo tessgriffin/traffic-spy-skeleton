@@ -19,11 +19,11 @@ class UrlTest < Minitest::Test
     CreateSourcesAndPayloads.create_payload("#{url.name}",
                                             "2014-02-16 21:38:28 -0700",
                                             40,
-                                            "http://jumpstartlab.com",
+                                            "http://google.com",
                                             "GET",
                                             [],
                                             "socialLogin",
-                                            "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+                                            "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Safari/24.0.1309.0 Safari/537.17",
                                             "1920",
                                             "1280",
                                             "63.29.38.211",
@@ -57,7 +57,7 @@ class UrlTest < Minitest::Test
                                             "2015-03-10 21:38:05 -0800",
                                             18,
                                             "http://jumpstartlab.com",
-                                            "GET",
+                                            "POST",
                                             [],
                                             "socialLogin",
                                             "Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
@@ -66,6 +66,11 @@ class UrlTest < Minitest::Test
                                             "63.29.38.210",
                                             source)
     assert_equal 18, url.average_response_time
+    assert_equal 6, url.shortest_response_time
+    assert_equal 40, url.longest_response_time
+    assert_equal ["GET", "POST"], url.all_request_types
+    assert_equal ["http://jumpstartlab.com", "http://google.com"], url.most_popular_referrers
+    assert_equal ["Chrome", "Safari"], url.most_popular_user_agents
   end
 
 end
