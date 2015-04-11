@@ -19,7 +19,6 @@ module TrafficSpy
 
     get '/sources/:identifier' do |identifier|
       @source = Source.find_by(identifier: identifier)
-      #@url = Url.find_by(id: @source.url_id)
       if @source == nil
         erb :no_source_error
       else
